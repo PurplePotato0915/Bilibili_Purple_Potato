@@ -1,0 +1,119 @@
+library(Seurat)
+library(tidyverse)
+library(harmony)
+library(SingleR)
+
+# load("datasets/P01P02_Seurat.RData")
+# load("datasets/P04P05_Seurat.RData")
+# load("datasets/P08P09_Seurat.RData")
+# load("datasets/P10P12_Seurat.RData")
+# load("datasets/P13P14_Seurat.RData")
+# load("datasets/P15P17_Seurat.RData")
+# load("datasets/P16P24P26_Seurat.RData")
+# load("datasets/P19P20_Seurat.RData")
+# load("datasets/P21P25P28_Seurat.RData")
+# load("datasets/P22P23_Seurat.RData")
+# load("datasets/P31P32_Seurat.RData")
+
+load("datasets/PEM1_Seurat.RData");PEM1=GSE212217
+load("datasets/PEM2_Seurat.RData");PEM2=GSE212217
+load("datasets/PEM3_Seurat.RData");PEM3=GSE212217
+load("datasets/PEM5_Seurat.RData");PEM5=GSE212217
+load("datasets/PEM6_Seurat.RData");PEM6=GSE212217
+load("datasets/PEM7_Seurat.RData");PEM7=GSE212217
+load("datasets/PEM8_Seurat.RData");PEM8=GSE212217
+load("datasets/PEM9_Seurat.RData");PEM9=GSE212217
+load("datasets/PEM10_Seurat.RData");PEM10=GSE212217
+load("datasets/PEM11_Seurat.RData");PEM11=GSE212217
+load("datasets/PEM12_Seurat.RData");PEM12=GSE212217
+load("datasets/PEM13_Seurat.RData");PEM13=GSE212217
+load("datasets/PEM14_Seurat.RData");PEM14=GSE212217
+load("datasets/PEM15_Seurat.RData");PEM15=GSE212217
+load("datasets/PEM16_Seurat.RData");PEM16=GSE212217
+load("datasets/PEM17_Seurat.RData");PEM17=GSE212217
+load("datasets/PEM18_Seurat.RData");PEM18=GSE212217
+load("datasets/PEM19_Seurat.RData");PEM19=GSE212217
+load("datasets/PEM20_Seurat.RData");PEM20=GSE212217
+load("datasets/PEM21_Seurat.RData");PEM21=GSE212217
+load("datasets/PEM23_Seurat.RData");PEM23=GSE212217
+rm(GSE212217)
+
+scRNA.list=list(PEM1,PEM2,PEM3,PEM5,PEM6,PEM7,PEM8,PEM9,PEM10,PEM11,PEM12,PEM13,PEM14,PEM15,PEM16,PEM17,PEM18,
+                PEM19,PEM20,PEM21,PEM23)
+
+rm(PEM1,PEM2,PEM3,PEM5,PEM6,PEM7,PEM8,PEM9,PEM10,PEM11,PEM12,PEM13,PEM14,PEM15,PEM16,PEM17,PEM18,
+   PEM19,PEM20,PEM21,PEM23)
+
+samples_name=c("PEM1","PEM2","PEM3","PEM5","PEM6","PEM7","PEM8","PEM9","PEM10",
+               "PEM11","PEM12","PEM13","PEM14","PEM15","PEM16","PEM17","PEM18","PEM19","PEM20","PEM21","PEM23")
+
+for(i in 1:length(scRNA.list)){
+  scRNA.list[[i]]=RenameCells(scRNA.list[[i]],add.cell.id=samples_name[i])
+  scRNA.list[[i]]$orig.ident=as.factor(samples_name[i])
+}
+
+scRNA=merge(scRNA.list[[1]],scRNA.list[2:length(scRNA.list)])
+rm(scRNA.list)
+
+
+#qc
+scRNA[["percent.mt"]]=PercentageFeatureSet(scRNA,pattern="^MT-")
+scRNA[["percent.rb"]]=PercentageFeatureSet(scRNA,pattern="^RP[SL]")
+HB.genes=c("HBA1","HBA2","HBB","HBD","HBE1","HBG1","HBG2","HBM","HBQ1","HBZ")
+HB.genes=CaseMatch(HB.genes,rownames(scRNA))
+scRNA[["percent.HB"]]=PercentageFeatureSet(scRNA,features=HB.genes)
+scRNA=subset(scRNA,subset=percent.HB<1&nCount_RNA<15000&percent.mt<20&orig.ident!="PEM23")
+
+VlnPlot(scRNA,features=c('percent.mt',"percent.rb","nFeature_RNA","nCount_RNA"),raster=FALSE,
+        group.by='orig.ident',pt.size=0,ncol = 2)+theme(axis.title.x=element_blank())+NoLegend()
+
+#
+scRNA=NormalizeData(scRNA) %>% FindVariableFeatures(nfeatures=2000) %>% ScaleData()
+scRNA=RunPCA(scRNA,verbose=F)
+scRNA=RunHarmony(scRNA,group.by.vars='orig.ident',assay.use='RNA',max.iter.harmony=20)
+scRNA=RunTSNE(scRNA,reduction='harmony',dims=1:30) %>% RunUMAP(reduction='harmony',dims=1:30)
+scRNA=FindNeighbors(scRNA,dims=1:25,reduction='harmony') %>% FindClusters(resolution=4)
+
+ref1=celldex::MonacoImmuneData()
+pred.scRNA=SingleR(test=scRNA@assays$RNA@data,ref=ref1,labels=ref1$label.fine,clusters=scRNA@active.ident)
+new.cluster.ids=pred.scRNA$pruned.labels
+names(new.cluster.ids)=levels(scRNA)
+scRNA=RenameIdents(scRNA,new.cluster.ids)
+scRNA[["annotation"]]=scRNA@active.ident
+table(Idents(scRNA))
+
+scRNA=scRNA[,!is.na(Idents(scRNA))]
+DimPlot(scRNA,reduction = 'umap',label = T)
+DimPlot(scRNA,reduction = 'tsne',label = T)
+save(scRNA,file = "results 20241104/data.RData")
+
+
+
+
+load("results 20241104/data.RData")
+clinical = read.csv("inter_data/clinical.csv")
+clinical_group = data.frame(ID = clinical$ID[31:54],
+                            Group = clinical$RE[31:54])
+datTem = scRNA@meta.data %>%
+  left_join(clinical_group, by = c("orig.ident" = "ID"))
+table(datTem$Group)
+scRNA[["Group"]] = datTem$Group
+
+#markers <- FindMarkers(scRNA, ident.1 = "NR", ident.2 = "R", group.by = "Group")
+markers <- FindMarkers(scRNA, ident.1 = "NR", ident.2 = "R", group.by = "Group", 
+                       logfc.threshold = 0, min.pct = 0)
+write.csv(markers, "inter_data/DEGs_All.csv")
+sorted_genes <- markers[order(-markers$avg_log2FC), ]
+
+library(fgsea)
+gene_rank <- markers$avg_log2FC
+names(gene_rank) <- rownames(markers)
+gene_rank <- sort(gene_rank, decreasing=TRUE)
+pathways <- gmtPathways("C:/Users/Dingy/Desktop/response2025/data/KEGG_MEDICUS_REFERENCE_CGAS_STING_SIGNALING_PATHWAY.v2024.1.Hs.gmt")
+fgseaRes <- fgsea(pathways, gene_rank, minSize=0, maxSize=500)
+pathway = fgseaRes[order(fgseaRes$pval), ]
+plotEnrichment(pathway, gene_rank) +
+  ggtitle(pathway)+
+  theme(plot.title = element_text(size = 6))
+
+

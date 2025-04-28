@@ -1,0 +1,81 @@
+"ID","intervention","cell","count","proportion"
+"1","CTRL","Classical monocytes",470,0.356871678056188
+"1","CTRL","Myeloid dendritic cells",39,0.0296127562642369
+"1","CTRL","Naive CD8 T cells",277,0.210326499620349
+"1","CTRL","Natural killer cells",50,0.0379650721336371
+"1","CTRL","Non classical monocytes",129,0.0979498861047836
+"1","CTRL","Non-switched memory B cells",126,0.0956719817767654
+"1","CTRL","Plasmacytoid dendritic cells",12,0.00911161731207289
+"1","CTRL","Th1 cells",214,0.162490508731967
+"10","STIM","Classical monocytes",458,0.296824368114063
+"10","STIM","Myeloid dendritic cells",32,0.0207388204795852
+"10","STIM","Naive CD8 T cells",409,0.265068049254699
+"10","STIM","Natural killer cells",60,0.0388852883992223
+"10","STIM","Non classical monocytes",116,0.0751782242384964
+"10","STIM","Non-switched memory B cells",174,0.112767336357745
+"10","STIM","Plasmacytoid dendritic cells",12,0.00777705767984446
+"10","STIM","Th1 cells",282,0.182760855476345
+"2","CTRL","Classical monocytes",428,0.339413164155432
+"2","CTRL","Myeloid dendritic cells",39,0.0309278350515464
+"2","CTRL","Naive CD8 T cells",287,0.227597145122918
+"2","CTRL","Natural killer cells",62,0.049167327517843
+"2","CTRL","Non classical monocytes",97,0.0769230769230769
+"2","CTRL","Non-switched memory B cells",104,0.0824742268041237
+"2","CTRL","Plasmacytoid dendritic cells",7,0.00555114988104679
+"2","CTRL","Th1 cells",237,0.187946074544013
+"3","CTRL","Classical monocytes",465,0.349361382419234
+"3","CTRL","Myeloid dendritic cells",37,0.0277986476333584
+"3","CTRL","Naive CD8 T cells",318,0.238918106686702
+"3","CTRL","Natural killer cells",63,0.0473328324567994
+"3","CTRL","Non classical monocytes",76,0.0570999248685199
+"3","CTRL","Non-switched memory B cells",118,0.0886551465063862
+"3","CTRL","Plasmacytoid dendritic cells",13,0.00976709241172051
+"3","CTRL","Th1 cells",241,0.18106686701728
+"4","CTRL","Classical monocytes",453,0.341114457831325
+"4","CTRL","Myeloid dendritic cells",53,0.0399096385542169
+"4","CTRL","Naive CD8 T cells",292,0.219879518072289
+"4","CTRL","Natural killer cells",64,0.0481927710843374
+"4","CTRL","Non classical monocytes",118,0.088855421686747
+"4","CTRL","Non-switched memory B cells",130,0.0978915662650602
+"4","CTRL","Plasmacytoid dendritic cells",12,0.00903614457831325
+"4","CTRL","Th1 cells",206,0.155120481927711
+"5","CTRL","Classical monocytes",457,0.348588863463005
+"5","CTRL","Myeloid dendritic cells",47,0.0358504958047292
+"5","CTRL","Naive CD8 T cells",274,0.209000762776506
+"5","CTRL","Natural killer cells",57,0.0434782608695652
+"5","CTRL","Non classical monocytes",106,0.0808543096872616
+"5","CTRL","Non-switched memory B cells",135,0.102974828375286
+"5","CTRL","Plasmacytoid dendritic cells",9,0.0068649885583524
+"5","CTRL","Th1 cells",226,0.172387490465294
+"6","STIM","Classical monocytes",419,0.289364640883978
+"6","STIM","Myeloid dendritic cells",44,0.0303867403314917
+"6","STIM","Naive CD8 T cells",380,0.262430939226519
+"6","STIM","Natural killer cells",68,0.0469613259668508
+"6","STIM","Non classical monocytes",99,0.0683701657458564
+"6","STIM","Non-switched memory B cells",157,0.108425414364641
+"6","STIM","Plasmacytoid dendritic cells",24,0.0165745856353591
+"6","STIM","Th1 cells",257,0.177486187845304
+"7","STIM","Classical monocytes",420,0.286493860845839
+"7","STIM","Myeloid dendritic cells",40,0.0272851296043656
+"7","STIM","Naive CD8 T cells",401,0.273533424283765
+"7","STIM","Natural killer cells",72,0.0491132332878581
+"7","STIM","Non classical monocytes",95,0.0648021828103684
+"7","STIM","Non-switched memory B cells",145,0.0989085948158254
+"7","STIM","Plasmacytoid dendritic cells",16,0.0109140518417462
+"7","STIM","Th1 cells",277,0.188949522510232
+"8","STIM","Classical monocytes",413,0.283459162663006
+"8","STIM","Myeloid dendritic cells",42,0.0288263555250515
+"8","STIM","Naive CD8 T cells",387,0.265614275909403
+"8","STIM","Natural killer cells",68,0.0466712422786548
+"8","STIM","Non classical monocytes",114,0.0782429649965683
+"8","STIM","Non-switched memory B cells",148,0.101578586135896
+"8","STIM","Plasmacytoid dendritic cells",11,0.00754975978037062
+"8","STIM","Th1 cells",274,0.18805765271105
+"9","STIM","Classical monocytes",447,0.290826284970722
+"9","STIM","Myeloid dendritic cells",44,0.0286271958360442
+"9","STIM","Naive CD8 T cells",386,0.25113858165257
+"9","STIM","Natural killer cells",63,0.0409889394925179
+"9","STIM","Non classical monocytes",131,0.0852309694209499
+"9","STIM","Non-switched memory B cells",164,0.106701366297983
+"9","STIM","Plasmacytoid dendritic cells",19,0.0123617436564736
+"9","STIM","Th1 cells",283,0.184124918672739
